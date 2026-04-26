@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Standard Core</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --gold: #b8965a;
+    --gold-light: #d4af7a;
+    --cream: #f0ead8;
+    --cream-dim: #c8bea8;
+    --charcoal: #141414;
+    --line: rgba(184, 150, 90, 0.2);
+  }
+
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--black);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.6;
+  }
+
+  .page-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* Header */
+  header {
+    padding: 64px 0 48px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 0.1s;
+  }
+
+  .wordmark {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 11px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .header-rule {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+    margin-top: 20px;
+  }
+
+  /* Divider */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--line);
+    margin: 48px 0;
+  }
+
+  .divider-gold {
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+    margin: 40px 0;
+  }
+
+  /* Hero statement */
+  .hero-statement {
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 0.35s;
+    margin-bottom: 16px;
+  }
+
+  .hero-statement h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(38px, 7vw, 58px);
+    line-height: 1.12;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+  }
+
+  .hero-statement h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  /* Section blocks */
+  .section {
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+  }
+
+  .section:nth-child(1) { animation-delay: 0.55s; }
+  .section:nth-child(2) { animation-delay: 0.70s; }
+  .section:nth-child(3) { animation-delay: 0.85s; }
+  .section:nth-child(4) { animation-delay: 1.00s; }
+  .section:nth-child(5) { animation-delay: 1.15s; }
+
+  .section p {
+    font-size: clamp(17px, 2.5vw, 20px);
+    line-height: 1.75;
+    color: var(--cream-dim);
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .section p strong {
+    color: var(--cream);
+    font-weight: 400;
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    border-left: 1px solid var(--gold);
+    padding: 8px 0 8px 28px;
+    margin: 40px 0;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+    animation-delay: 0.9s;
+  }
+
+  .pull-quote p {
+    font-size: clamp(20px, 3.5vw, 26px);
+    line-height: 1.5;
+    color: var(--cream);
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 0.01em;
+  }
+
+  /* Section title */
+  .section-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  /* Final statement */
+  .final-statement {
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+    animation-delay: 1.3s;
+    margin: 56px 0;
+  }
+
+  .final-statement p {
+    font-size: clamp(22px, 4vw, 32px);
+    line-height: 1.4;
+    color: var(--cream);
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .final-statement p em {
+    color: var(--gold-light);
+    font-style: normal;
+  }
+
+  /* CTA */
+  .cta-wrapper {
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+    animation-delay: 1.5s;
+    padding: 48px 0 80px;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 16px 36px;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease, letter-spacing 0.3s ease;
+    border: 1px solid var(--gold);
+  }
+
+  .cta-btn:hover {
+    background: transparent;
+    color: var(--gold);
+    letter-spacing: 0.6em;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 28px 0;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+    animation-delay: 1.6s;
+  }
+
+  footer span {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.4;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Decorative corner */
+  .corner-mark {
+    position: fixed;
+    top: 32px;
+    right: 32px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 8px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.3;
+    writing-mode: vertical-rl;
+  }
+</style>
+</head>
+<body>
+
+<div class="corner-mark">Standard Core</div>
+
+<div class="page-wrapper">
+
+  <header>
+    <span class="wordmark">Standard Core</span>
+    <div class="header-rule"></div>
+  </header>
+
+  <div class="hero-statement">
+    <h1>Standard nije cifra.<br><em>To je sistem.</em></h1>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <p>Većina ljudi kada čuje reč standard, odmah pomisli na broj. Koliko zarađuješ. Kakav stan imaš. Koje auto voziš. Gde ideš na odmor.</p>
+    <p>To nisu standardi. <strong>To su simptomi standarda.</strong></p>
+    <p>Standard je sistem po kome donosiš odluke pre nego što se pojavi problem. Pre nego što ostaneš bez posla. Pre nego što ti se pokvari auto. Pre nego što te banka pozove.</p>
+  </div>
+
+  <div class="pull-quote">
+    <p>"Razvijene zemlje ne funkcionišu bolje jer imaju više novca. Funkcionišu bolje jer imaju ugrađene sisteme."</p>
+  </div>
+
+  <div class="section">
+    <span class="section-label">Zašto odlazimo</span>
+    <p>Odlazimo jer tamo sistem radi umesto nas. Ne moramo da mislimo o tome hoće li neko ukrasti naš novac, hoće li nas firma izbaciti bez otpremnine, hoće li zdravstveni sistem funkcionisati kada nam zatreba.</p>
+    <p>Sistem nas oslobađa mentalnog kapaciteta.</p>
+    <p>A ovde — <strong>svaki čovek mora da bude sopstvena institucija.</strong> Sopstveni pravnik. Sopstveni finansijski savetnik. Sopstveni HR. I dok troši energiju na to da preživi sistem, nema kapaciteta da gradi išta iznad preživljavanja.</p>
+    <p>To nije problem karaktera. To je problem arhitekture.</p>
+  </div>
+
+  <div class="divider-gold"></div>
+
+  <div class="section">
+    <span class="section-label">Standard Core</span>
+    <p>Postoji iz jednog razloga — da ti da alate da izgradiš sopstveni sistem, unutar sistema koji ne funkcioniše.</p>
+    <p>Ne da te inspirišemo. Ne da ti prodamo san o životu negde drugde. Nego da ti pokažemo kako čovek koji ostaje ovde, koji zarađuje ovde, koji plaća poreze ovde — može da napravi finansijsku arhitekturu koja funkcioniše.</p>
+    <p><strong>Štednja nije vrlina. Sistem je vrlina.</strong></p>
+    <p>Znanje nije privilegija. Nedostatak znanja je trošak koji plaćaš svaki mesec — i ne vidiš ga ni na jednom računu.</p>
+  </div>
+
+  <div class="final-statement">
+    <p>Standard koji gradiš sam sebi —<br><em>jedini je koji ti ne može niko oduzeti.</em></p>
+  </div>
+
+  <div class="cta-wrapper">
+    <a href="https://instagram.com/standardcore" class="cta-btn">Prati na Instagramu</a>
+  </div>
+
+  <footer>
+    <span>Standard Core &mdash; Finansijska arhitektura</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
